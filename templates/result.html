@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Prediction Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body id="body">
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            🎓 Student AI System
+
+        </div>
+
+        <div class="nav-links">
+
+            <span>
+
+                Welcome, {{ current_user.username }}
+
+            </span>
+
+            <a href="/logout">
+
+                <button class="logout-btn">
+
+                    Logout
+
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-container">
+
+        <div class="theme-toggle">
+
+    <button
+        id="themeButton"
+        onclick="toggleTheme()"
+    >
+
+        🌙 Dark Mode
+
+    </button>
+
+</div>
+
+        <h1 class="dashboard-title">
+
+            🎓 Student Performance Dashboard
+
+        </h1>
+
+        <!-- TOP CARDS -->
+
+        <div class="top-cards">
+
+            <!-- PERFORMANCE -->
+
+            <div class="card">
+
+                <h2>
+                    📊 Performance
+                </h2>
+
+                <div class="performance-text">
+
+                    {{ performance }}
+
+                </div>
+
+            </div>
+
+            <!-- CONFIDENCE -->
+
+            <div class="card">
+
+                <h2>
+                    🎯 Confidence
+                </h2>
+
+                <div class="progress-container">
+
+                    <div
+                        class="progress-bar"
+                        style="width: {{ confidence }}%;" 
+                        >
+
+                        {{ confidence }}%
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RISK -->
+
+            <div class="card">
+
+                <h2>
+                    ⚠️ Risk Level
+                </h2>
+
+                <div class="risk-badge">
+
+                    {{ risk_level }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- IMPORTANT FACTORS -->
+
+        <div class="large-card">
+
+            <h2>
+                📈 Important Factors
+            </h2>
+
+            <div class="factor-grid">
+
+                <div class="factor-box">
+                    Study Hours
+                </div>
+
+                <div class="factor-box">
+                    Attendance
+                </div>
+
+                <div class="factor-box">
+                    Sleep Quality
+                </div>
+
+                <div class="factor-box">
+                    Mental Health
+                </div>
+
+                <div class="factor-box">
+                    Lifestyle Score
+                </div>
+
+                <div class="factor-box">
+                    Discipline Score
+                </div>
+
+            </div>
+
+        </div>
+        <!-- CHART SECTION -->
+
+<div class="chart-grid">
+
+    <!-- PERFORMANCE CHART -->
+
+    <div class="large-card">
+
+        <h2>
+            📊 Performance Analysis
+        </h2>
+
+        <canvas id="performanceChart">
+
+        </canvas>
+
+    </div>
+
+    <!-- FEATURE CHART -->
+
+    <div class="large-card">
+
+        <h2>
+            📈 Feature Importance
+        </h2>
+
+        <canvas id="featureChart">
+
+        </canvas>
+
+    </div>
+
+</div>
+
+        <!-- RECOMMENDATIONS -->
+
+        <div class="large-card">
+
+            <h2>
+                💡 Personalized Suggestions
+            </h2>
+
+            <div class="recommendation-container">
+
+                {% for rec in recommendations %}
+
+                    <div class="recommendation-card">
+
+                        ✅ {{ rec }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <!-- BUTTON -->
+
+        <a href="/predict">
+
+            <button class="predict-btn">
+
+                Predict Again
+
+            </button>
+
+        </a>
+
+    </div>
+
+    <script>
+
+    // --------------------------------
+    // PERFORMANCE CHART
+    // --------------------------------
+
+    const performanceCtx = document.getElementById(
+        'performanceChart'
+    );
+
+    new Chart(performanceCtx, {
+
+        type: 'doughnut',
+
+        data: {
+
+            labels: [
+
+                'Confidence',
+
+                'Remaining'
+
+            ],
+
+            datasets: [{
+
+                data: [
+
+                    {{ confidence }},
+
+                    {{ 100 - confidence }}
+                ],
+
+                backgroundColor: [
+
+                    '#38bdf8',
+
+                    '#1e293b'
+                ],
+
+                borderWidth: 0
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    labels: {
+
+                        color: 'white'
+                    }
+                }
+            }
+        }
+    });
+
+    // --------------------------------
+    // FEATURE IMPORTANCE CHART
+    // --------------------------------
+
+    const featureCtx = document.getElementById(
+        'featureChart'
+    );
+
+    new Chart(featureCtx, {
+
+        type: 'bar',
+
+        data: {
+
+            labels: [
+
+                'Study',
+
+                'Attendance',
+
+                'Sleep',
+
+                'Mental Health',
+
+                'Lifestyle'
+            ],
+
+            datasets: [{
+
+                label: 'Importance',
+
+                data: [
+
+                    95,
+
+                    88,
+
+                    75,
+
+                    70,
+
+                    65
+                ],
+
+                backgroundColor: [
+
+                    '#38bdf8',
+
+                    '#0ea5e9',
+
+                    '#0284c7',
+
+                    '#0369a1',
+
+                    '#075985'
+                ]
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        color: 'white'
+                    }
+                },
+
+                x: {
+
+                    ticks: {
+
+                        color: 'white'
+                    }
+                }
+            },
+
+            plugins: {
+
+                legend: {
+
+                    labels: {
+
+                        color: 'white'
+                    }
+                }
+            }
+        }
+    });
+
+</script>
+<script>
+    function toggleTheme() {
+
+        document.body.classList.toggle(
+            "light-mode"
+        );
+
+        const button = document.getElementById(
+            "themeButton"
+        );
+
+        // IF LIGHT MODE ACTIVE
+
+        if (
+            document.body.classList.contains(
+                "light-mode"
+            )
+        ) {
+
+            button.innerHTML =
+                "☀️ Light Mode";
+
+        }
+
+        // ELSE DARK MODE
+
+        else {
+
+            button.innerHTML =
+                "🌙 Dark Mode";
+        }
+    }
+
+</script>
+
+</body>
+
+</html>

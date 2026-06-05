@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Student Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            🎓 Student Dashboard
+        </div>
+
+        <div class="nav-links">
+
+            <span>
+                Welcome, {{ current_user.username }}
+            </span>
+
+            <a href="/predict">
+                <button>
+                    New Prediction
+                </button>
+            </a>
+
+            <a href="/logout">
+                <button class="logout-btn">
+                    Logout
+                </button>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- DASHBOARD -->
+
+    <div class="dashboard-container">
+
+        <h1 class="dashboard-title">
+
+            📊 Performance Analytics
+
+        </h1>
+
+        <!-- OVERVIEW CARDS -->
+
+        <div class="cards-container">
+
+            <div class="dashboard-card">
+
+                <h2>Total Predictions</h2>
+
+                <p>
+
+                    {{ predictions|length }}
+
+                </p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2>Latest Prediction</h2>
+
+                <p>
+
+                    {% if predictions %}
+                        {{ predictions[-1].performance }}
+                    {% else %}
+                        No Data
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2>Latest Risk</h2>
+
+                <p>
+
+                    {% if predictions %}
+                        {{ predictions[-1].risk_level }}
+                    {% else %}
+                        No Data
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- CHARTS -->
+
+        <div class="charts-container">
+
+            <div class="chart-card">
+
+                <h2>Performance Distribution</h2>
+
+                <canvas id="performanceChart"></canvas>
+
+            </div>
+
+        </div>
+
+        <!-- HISTORY TABLE -->
+
+        <div class="large-card">
+
+            <h2>
+
+                Prediction History
+
+            </h2>
+
+            <table class="history-table">
+
+                <tr>
+
+                    <th>
+                        Performance
+                    </th>
+
+                    <th>
+                        Confidence
+                    </th>
+
+                    <th>
+                        Risk Level
+                    </th>
+
+                </tr>
+
+                {% for prediction in predictions %}
+
+                <tr>
+
+                    <td>
+
+                        {{ prediction.performance }}
+
+                    </td>
+
+                    <td>
+
+                        {{ prediction.confidence }}%
+
+                    </td>
+
+                    <td>
+
+                        <span class="
+                        {% if prediction.risk_level == 'High Risk' %}
+                            risk-high
+                        {% elif prediction.risk_level == 'Moderate Risk' %}
+                            risk-medium
+                        {% else %}
+                            risk-low
+                        {% endif %}
+                        ">
+
+                            {{ prediction.risk_level }}
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- CHART JS -->
+
+    <script>
+
+        const ctx = document.getElementById('performanceChart');
+
+        new Chart(ctx, {
+
+            type: 'doughnut',
+
+            data: {
+
+                labels: ['Excellent', 'Moderate', 'Poor'],
+
+                datasets: [{
+
+                    data: [
+
+                        {{ high_count }},
+                        {{ moderate_count }},
+                        {{ low_count }}
+
+                    ]
+
+                }]
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

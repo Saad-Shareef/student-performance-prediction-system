@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <div class="navbar">
+
+        <div class="logo">
+            ⚙️ Admin Panel
+        </div>
+
+        <div class="nav-links">
+
+            <span>
+                Welcome Admin
+            </span>
+
+            <a href="/logout">
+                <button class="logout-btn">
+                    Logout
+                </button>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Dashboard -->
+
+    <div class="dashboard-container">
+
+        <h1 class="dashboard-title">
+
+            📊 Admin Analytics Dashboard
+
+        </h1>
+
+        <!-- Cards -->
+
+        <div class="card-grid">
+
+            <div class="dashboard-card">
+
+                <h2>Total Users</h2>
+
+                <p>{{ total_users }}</p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2>Total Students</h2>
+
+                <p>{{ total_students }}</p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2>Total Teachers</h2>
+
+                <p>{{ total_teachers }}</p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2>Total Predictions</h2>
+
+                <p>{{ total_predictions }}</p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2>High Risk Students</h2>
+
+                <p>{{ high_risk }}</p>
+
+            </div>
+
+        </div>
+
+        <!-- User Table -->
+
+        <div class="large-card">
+
+            <h2>User Management</h2>
+
+            <table class="history-table">
+
+                <tr>
+
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+
+                </tr>
+
+                {% for user in users %}
+
+                <tr>
+
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

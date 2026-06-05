@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Student Prediction Form
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            🎓 Student AI System
+
+        </div>
+
+        <div class="nav-links">
+
+            <span>
+
+                Welcome, {{ current_user.username }}
+
+            </span>
+
+            <a href="/logout">
+
+                <button class="logout-btn">
+
+                    Logout
+
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="predict-container">
+
+        <h1 class="predict-title">
+
+            🎓 Student Prediction Form
+
+        </h1>
+
+        <form
+            action="/result"
+            method="POST"
+            class="prediction-form"
+        >
+
+            <!-- PERSONAL INFO -->
+
+            <div class="form-card">
+
+                <h2>
+                    👤 Personal Information
+                </h2>
+
+                <input
+                    type="number"
+                    name="age"
+                    placeholder="Age"
+                    required
+                >
+
+                <select
+                    name="gender"
+                    required
+                >
+
+                    <option value="" disabled selected>
+                        Select Gender
+                    </option>
+
+                    <option value="0">
+                        Male
+                    </option>
+
+                    <option value="1">
+                        Female
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- STUDY DETAILS -->
+
+            <div class="form-card">
+
+                <h2>
+                    📚 Study Details
+                </h2>
+
+                <input
+                    type="number"
+                    step="0.1"
+                    name="study_hours"
+                    placeholder="Study Hours Per Day"
+                    required
+                >
+
+                <input
+                    type="number"
+                    name="attendance"
+                    placeholder="Attendance Percentage"
+                    required
+                >
+
+                <input
+                    type="number"
+                    step="0.1"
+                    name="sleep_hours"
+                    placeholder="Sleep Hours"
+                    required
+                >
+
+            </div>
+
+            <!-- DIGITAL HABITS -->
+
+            <div class="form-card">
+
+                <h2>
+                    📱 Digital Habits
+                </h2>
+
+                <input
+                    type="number"
+                    step="0.1"
+                    name="social_media"
+                    placeholder="Social Media Hours"
+                    required
+                >
+
+                <input
+                    type="number"
+                    step="0.1"
+                    name="netflix_hours"
+                    placeholder="Netflix Hours"
+                    required
+                >
+
+                <select
+                    name="internet_quality"
+                    required
+                >
+
+                    <option value="" disabled selected>
+                        Internet Quality
+                    </option>
+
+                    <option value="1">
+                        Poor
+                    </option>
+
+                    <option value="2">
+                        Average
+                    </option>
+
+                    <option value="3">
+                        Good
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- LIFESTYLE -->
+
+            <div class="form-card">
+
+                <h2>
+                    🏃 Lifestyle
+                </h2>
+
+                <input
+                    type="number"
+                    step="0.1"
+                    name="diet_quality"
+                    placeholder="Diet Quality (1-10)"
+                    required
+                >
+
+                <input
+                    type="number"
+                    step="0.1"
+                    name="exercise_frequency"
+                    placeholder="Exercise Frequency"
+                    required
+                >
+
+                <input
+                    type="number"
+                    step="0.1"
+                    name="mental_health"
+                    placeholder="Mental Health Rating"
+                    required
+                >
+
+            </div>
+
+            <!-- ADDITIONAL DETAILS -->
+
+            <div class="form-card">
+
+                <h2>
+                    🎯 Additional Details
+                </h2>
+
+                <select
+                    name="part_time_job"
+                    required
+                >
+
+                    <option value="" disabled selected>
+                        Part Time Job
+                    </option>
+
+                    <option value="0">
+                        No
+                    </option>
+
+                    <option value="1">
+                        Yes
+                    </option>
+
+                </select>
+
+                <select
+                    name="parental_education"
+                    required
+                >
+
+                    <option value="" disabled selected>
+                        Parent Education Level
+                    </option>
+
+                    <option value="1">
+                        High School
+                    </option>
+
+                    <option value="2">
+                        Intermediate
+                    </option>
+
+                    <option value="3">
+                        Bachelor Degree
+                    </option>
+
+                    <option value="4">
+                        Master Degree
+                    </option>
+
+                    <option value="5">
+                        PhD
+                    </option>
+
+                </select>
+
+                <select
+                    name="extracurricular"
+                    required
+                >
+
+                    <option value="" disabled selected>
+                        Extracurricular Participation
+                    </option>
+
+                    <option value="0">
+                        No
+                    </option>
+
+                    <option value="1">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+            <!-- BUTTON -->
+
+            <button
+                type="submit"
+                class="submit-btn"
+            >
+
+                🚀 Predict Performance
+
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

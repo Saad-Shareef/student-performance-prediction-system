@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Select Role</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="role-container">
+
+    <h1>
+
+        🎓 Student Performance Prediction System
+
+    </h1>
+
+    <p>
+
+        Select Your Role
+
+    </p>
+
+    <div class="role-cards">
+
+        <!-- STUDENT -->
+
+        <a href="/student-login">
+
+            <div class="role-card">
+
+                👨‍🎓
+
+                <h2>Student</h2>
+
+            </div>
+
+        </a>
+
+        <!-- TEACHER -->
+
+        <a href="/teacher-login">
+
+            <div class="role-card">
+
+                👨‍🏫
+
+                <h2>Teacher</h2>
+
+            </div>
+
+        </a>
+
+        <!-- ADMIN -->
+
+        <a href="/admin-login">
+
+            <div class="role-card">
+
+                🛠️
+
+                <h2>Admin</h2>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

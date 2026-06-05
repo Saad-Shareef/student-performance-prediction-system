@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Teacher Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>👨‍🏫 Teacher Panel</h2>
+
+        <a href="/logout">
+
+        <button class="logout-btn">
+
+            Logout
+
+        </button>
+
+    </a>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main-content">
+
+        <h1 class="dashboard-title">
+
+            📊 Teacher Analytics Dashboard
+
+        </h1>
+
+        <!-- OVERVIEW CARDS -->
+
+        <div class="cards-container">
+
+            <div class="dashboard-card">
+
+                <h2>Total Predictions</h2>
+
+                <p>{{ total_predictions }}</p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2>High Risk Students</h2>
+
+                <p>{{ high_risk }}</p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2>Average Confidence</h2>
+
+                <p>{{ avg_confidence }}%</p>
+
+            </div>
+
+        </div>
+
+        <!-- CHART -->
+
+        <div class="chart-card">
+
+            <h2>Performance Distribution</h2>
+
+            <canvas id="teacherChart"></canvas>
+
+        </div>
+
+        <!-- TABLE -->
+
+        <div class="large-card">
+
+            <h2>All Student Predictions</h2>
+
+            <table class="history-table">
+
+                <tr>
+
+                    <th>Student</th>
+                    <th>Performance</th>
+                    <th>Confidence</th>
+                    <th>Risk</th>
+
+                </tr>
+
+                {% for prediction in predictions %}
+
+                <tr>
+
+                    <td>
+                        {{ prediction.user.username }}
+                    </td>
+
+                    <td>
+                        {{ prediction.performance }}
+                    </td>
+
+                    <td>
+                        {{ prediction.confidence }}%
+                    </td>
+
+                    <td>
+
+                        <span class="
+                        {% if prediction.risk_level == 'High Risk' %}
+                            risk-high
+                        {% elif prediction.risk_level == 'Moderate Risk' %}
+                            risk-medium
+                        {% else %}
+                            risk-low
+                        {% endif %}
+                        ">
+
+                            {{ prediction.risk_level }}
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const ctx = document.getElementById('teacherChart');
+
+new Chart(ctx, {
+
+    type: 'pie',
+
+    data: {
+
+        labels: ['Excellent', 'Moderate', 'Poor'],
+
+        datasets: [{
+
+            data: [
+                {{ high_count }},
+                {{ moderate_count }},
+                {{ low_count }}
+            ]
+
+        }]
+    }
+});
+
+</script>
+
+</body>
+
+</html>
