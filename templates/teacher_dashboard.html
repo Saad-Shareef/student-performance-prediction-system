@@ -14,31 +14,37 @@
 
 </head>
 
-<body>
+<body class="teacher-dashboard-page">
 
-<div class="dashboard-container">
+<nav class="teacher-navbar">
 
-    <!-- SIDEBAR -->
+    <div class="nav-logo">
+        🎓 EDU-TRACK
+    </div>
 
-    <div class="sidebar">
+    <div class="nav-links">
 
-        <h2>👨‍🏫 Teacher Panel</h2>
+        <a href="/teacher-dashboard">
+            Dashboard
+        </a>
 
-        <a href="/logout">
+        <a href="/teacher-analytics"
+           class="active">
+            Analytics
+        </a>
 
-        <button class="logout-btn">
-
+        <a href="/logout"
+           class="logout-link">
             Logout
-
-        </button>
-
-    </a>
+        </a>
 
     </div>
 
+</nav>
+
     <!-- MAIN CONTENT -->
 
-    <div class="main-content">
+    <div class="teacher-container">
 
         <h1 class="dashboard-title">
 
@@ -146,9 +152,6 @@
         </div>
 
     </div>
-
-</div>
-
 <script>
 
 const ctx = document.getElementById('teacherChart');

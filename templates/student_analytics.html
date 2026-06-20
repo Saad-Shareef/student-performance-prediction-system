@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Student Analytics Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body class="student-analytics-page">
+
+<div class="dashboard-layout">
+
+    <div class="sidebar">
+
+        <h2>🎓 EDU-TRACK</h2>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/daily-activity">
+            Daily Activity
+        </a>
+
+        <a href="/student-analytics">
+            Analytics
+        </a>
+
+        <a href="/predict">
+            Predict Performance
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </div>
+
+    <div class="main-content">
+
+    <h1 class="dashboard-title">
+        📊 Student Analytics Dashboard
+    </h1>
+
+    {% if no_data %}
+
+        <h2>No Activity Records Found</h2>
+
+    {% else %}
+
+    <!-- ========================= -->
+    <!-- KPI CARDS -->
+    <!-- ========================= -->
+
+    <div class="kpi-grid">
+
+        <div class="kpi-card">
+
+            <h4>Previous Score</h4>
+
+            <h2>{{ current_user.previous_exam_score }}%</h2>
+
+        </div>
+
+        <div class="kpi-card">
+
+            <h4>Predicted Score</h4>
+
+            <h2>{{ predicted_score }}%</h2>
+
+        </div>
+
+        <div class="kpi-card">
+
+            <h4>Academic Growth</h4>
+
+            {% if growth > 0 %}
+
+                <h2 class="positive">
+                    📈 +{{ growth }}%
+                </h2>
+
+                <p>Improved</p>
+
+            {% elif growth < 0 %}
+
+                <h2 class="negative">
+                    📉 {{ growth }}%
+                </h2>
+
+                <p>Declined</p>
+
+            {% else %}
+
+                <h2>0%</h2>
+
+                <p>No Change</p>
+
+            {% endif %}
+
+        </div>
+
+        <div class="kpi-card">
+
+            <h4>Attendance</h4>
+
+            <h2>{{ analytics.avg_attendance }}%</h2>
+
+        </div>
+
+        <div class="kpi-card">
+
+        <div class="kpi-icon">
+
+            🚨
+
+        </div>
+
+        <div class="kpi-title">
+
+            Risk Level
+
+        </div>
+
+        <div
+            class="kpi-value"
+            style="color:{{ risk_color }};"
+            >
+
+            {{ risk_status }}
+
+        </div>
+
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- STUDY STATISTICS -->
+    <!-- ========================= -->
+
+    <div class="analytics-grid">
+
+        <div class="card">
+
+            <h3>Total Study Hours</h3>
+
+            <p>{{ analytics.total_study }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Average Study Hours</h3>
+
+            <p>{{ analytics.avg_study }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Average Sleep Hours</h3>
+
+            <p>{{ analytics.avg_sleep }}</p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Average Stress Level</h3>
+
+            <p>{{ analytics.avg_stress }}</p>
+
+        </div>
+
+    </div>
+
+   <div class="charts-grid">
+
+    <div class="chart-card">
+
+        <h2 class="chart-title">
+            📚 Study Hours Trend
+        </h2>
+
+        <canvas id="studyChart"></canvas>
+
+    </div>
+
+    <div class="chart-card">
+
+        <h2 class="chart-title">
+            😴 Sleep Trend
+        </h2>
+
+        <canvas id="sleepChart"></canvas>
+
+    </div>
+
+</div>
+
+    <!-- ========================= -->
+    <!-- ATTENDANCE GRAPH -->
+    <!-- ========================= -->
+
+    <div class="chart-card">
+
+        <h2>🎯 Attendance Trend</h2>
+
+        <canvas id="attendanceChart"></canvas>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- AI SUGGESTIONS -->
+    <!-- ========================= -->
+
+    <div class="suggestion-card">
+
+        <h2>🤖 AI Recommendations</h2>
+
+        <ul>
+
+            {% for suggestion in suggestions %}
+
+            <div class="recommendation-item">
+
+                {{ suggestion }}
+
+            </div>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- CHART.JS -->
+    <!-- ========================= -->
+
+    <script>
+
+        const dates = {{ dates | tojson }};
+
+        const studyData = {{ study_data | tojson }};
+
+        const sleepData = {{ sleep_data | tojson }};
+
+        const attendanceData = {{ attendance_data | tojson }};
+
+        // STUDY CHART
+
+        new Chart(
+            document.getElementById('studyChart'),
+            {
+                type: 'line',
+
+                data: {
+
+                    labels: dates,
+
+                    datasets: [{
+
+                        label: 'Study Hours',
+
+                        data: studyData,
+
+                        borderWidth: 3,
+
+                        tension: 0.4
+                    }]
+                }
+            }
+        );
+
+        // SLEEP CHART
+
+        new Chart(
+            document.getElementById('sleepChart'),
+            {
+                type: 'line',
+
+                data: {
+
+                    labels: dates,
+
+                    datasets: [{
+
+                        label: 'Sleep Hours',
+
+                        data: sleepData,
+
+                        borderWidth: 3,
+
+                        tension: 0.4
+                    }]
+                }
+            }
+        );
+
+        // ATTENDANCE CHART
+
+        new Chart(
+            document.getElementById('attendanceChart'),
+            {
+                type: 'bar',
+
+                data: {
+
+                    labels: dates,
+
+                    datasets: [{
+
+                        label: 'Attendance %',
+
+                        data: attendanceData,
+
+                        borderWidth: 1
+                    }]
+                }
+            }
+        );
+
+    </script>
+
+    {% endif %}
+
+</div>
+</div>
+</div>
+</body>
+
+</html>

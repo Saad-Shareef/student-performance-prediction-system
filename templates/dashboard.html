@@ -30,6 +30,30 @@
                 Welcome, {{ current_user.username }}
             </span>
 
+            <a href="/daily-activity">
+                <button>
+                    Daily Tracker
+                </button>
+
+            </a>
+            <a href="/student-analytics">
+
+                <button>
+
+                     Analytics
+
+                </button>
+
+            </a>
+            <a href="/profile">
+
+                <button>
+
+                    Academic Profile
+
+                </button>
+
+            </a>
             <a href="/predict">
                 <button>
                     New Prediction
@@ -55,7 +79,15 @@
             📊 Performance Analytics
 
         </h1>
-
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="success-message">
+                             {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
         <!-- OVERVIEW CARDS -->
 
         <div class="cards-container">
@@ -103,7 +135,7 @@
                 </p>
 
             </div>
-
+            
         </div>
 
         <!-- CHARTS -->
@@ -187,8 +219,6 @@
                 {% endfor %}
 
             </table>
-
-        </div>
 
     </div>
 

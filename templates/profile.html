@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Academic Profile</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="profile-card">
+
+    <h1 class="profile-title">
+        👨‍🎓 Student Profile
+    </h1>
+
+    <p class="profile-subtitle">
+        Complete your academic information
+    </p>
+
+    <form method="POST">
+
+        <div class="input-group">
+
+            <label>
+                🆔 Roll Number
+            </label>
+
+            <input
+            type="text"
+            name="roll_number"
+            value="{{ current_user.roll_number }}"
+            required>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>
+                📚 Semester
+            </label>
+
+            <input
+            type="number"
+            name="semester"
+            value="{{ current_user.semester }}"
+            required>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>
+                🎯 Previous Exam Score
+            </label>
+
+            <input
+            type="number"
+            step="0.01"
+            name="previous_exam_score"
+            value="{{ current_user.previous_exam_score }}"
+            required>
+
+        </div>
+
+        <button
+        type="submit"
+        class="profile-btn">
+
+            💾 Save Profile
+
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

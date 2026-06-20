@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>
+Student Details
+</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="stylesheet"
+href="{{ url_for('static',
+filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="student-details-container">
+
+<h1>
+
+🎓 Student Profile
+
+</h1>
+
+<div class="analytics-grid">
+
+<div class="card">
+
+<h3>Name</h3>
+
+<p>{{ student.username }}</p>
+
+</div>
+
+<div class="card">
+
+<h3>Roll Number</h3>
+
+<p>{{ student.roll_number }}</p>
+
+</div>
+
+<div class="card">
+
+<h3>Semester</h3>
+
+<p>{{ student.semester }}</p>
+
+</div>
+
+</div>
+
+<div class="analytics-grid">
+
+<div class="card">
+
+<h3>Previous Score</h3>
+
+<p>{{ student.previous_exam_score }}%</p>
+
+</div>
+
+<div class="card">
+
+<h3>Predicted Score</h3>
+
+<p>
+
+{{ prediction.predicted_score }}
+
+%
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>Risk Level</h3>
+
+<p>
+
+{{ prediction.risk_level }}
+
+</p>
+
+</div>
+
+</div>
+
+<div class="alert-card">
+
+    <h2>
+        🚨 AI Alerts
+    </h2>
+
+    {% for alert in alerts %}
+
+        <div class="alert-item">
+
+            {{ alert }}
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+<div class="chart-card">
+
+<h2>
+
+📚 Study Hours Trend
+
+</h2>
+
+<canvas id="studyChart"></canvas>
+
+</div>
+
+<div class="chart-card">
+
+<h2>
+
+😴 Sleep Trend
+
+</h2>
+
+<canvas id="sleepChart"></canvas>
+
+</div>
+
+<div class="chart-card">
+
+<h2>
+
+🎯 Attendance Trend
+
+</h2>
+
+<canvas id="attendanceChart"></canvas>
+
+</div>
+
+<script>
+
+const dates =
+{{ dates | tojson }};
+
+new Chart(
+document.getElementById(
+'studyChart'
+),
+{
+type:'line',
+
+data:{
+labels:dates,
+
+datasets:[{
+
+label:'Study Hours',
+
+data:
+{{ study_data | tojson }}
+
+}]
+}
+}
+);
+
+new Chart(
+document.getElementById(
+'sleepChart'
+),
+{
+type:'line',
+
+data:{
+labels:dates,
+
+datasets:[{
+
+label:'Sleep Hours',
+
+data:
+{{ sleep_data | tojson }}
+
+}]
+}
+}
+);
+
+new Chart(
+document.getElementById(
+'attendanceChart'
+),
+{
+type:'bar',
+
+data:{
+labels:dates,
+
+datasets:[{
+
+label:'Attendance',
+
+data:
+{{ attendance_data | tojson }}
+
+}]
+}
+}
+);
+
+</script>
+
+</div>
+
+</body>
+
+</html>

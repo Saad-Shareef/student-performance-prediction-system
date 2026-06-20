@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Teacher Analytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static',
+          filename='style.css') }}">
+
+</head>
+
+<body class="teacher-dashboard-page">
+
+<div class="teacher-page">
+
+    <h1 class="teacher-title">
+        📊 Teacher Analytics Dashboard
+    </h1>
+
+    <!-- KPI CARDS -->
+
+    <div class="teacher-kpi-grid">
+
+        <div class="teacher-card">
+            <h3>Total Students</h3>
+            <p>{{ total_students }}</p>
+        </div>
+
+        <div class="teacher-card">
+            <h3>High Risk</h3>
+            <p>{{ high_risk }}</p>
+        </div>
+
+        <div class="teacher-card">
+            <h3>Medium Risk</h3>
+            <p>{{ medium_risk }}</p>
+        </div>
+
+        <div class="teacher-card">
+            <h3>Low Risk</h3>
+            <p>{{ low_risk }}</p>
+        </div>
+
+    </div>
+
+    <!-- STUDENT TABLE -->
+
+    <div class="student-table-card">
+
+        <h2>
+            🎓 Student Performance Table
+        </h2>
+
+        <table class="student-table">
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Roll No</th>
+                    <th>Previous Score</th>
+                    <th>Predicted Score</th>
+                    <th>Risk</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for student in student_data %}
+
+                <tr>
+
+                    <td>
+                        <a href="/student-details/{{ student.id }}">
+                            {{ student.name }}
+                        </a>
+                    </td>
+
+                    <td>{{ student.roll }}</td>
+
+                    <td>{{ student.previous_score }}</td>
+
+                    <td>{{ student.predicted_score }}</td>
+
+                    <td>{{ student.risk }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
